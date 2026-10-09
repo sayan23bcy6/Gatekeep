@@ -1,0 +1,49 @@
+# Render deployment blueprint
+# ⚠️  INTENTIONALLY NOT DEPLOYED — provided for reference only.
+# See README.md "Deployment" section for details.
+
+services:
+  - type: web
+    name: rate-limiter-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    envVars:
+      - key: REDIS_URL
+        fromService:
+          name: rate-limiter-redis
+          type: redis
+          property: connectionString
+      - key: FAIL_MODE
+        value: open
+      - key: DATABASE_URL
+        value: sqlite:///./rate_limiter.db
+      - key: CORS_ORIGINS
+        value: https://rate-limiter-frontend.onrender.com
+      - key: LOG_LEVEL
+        value: INFO
+    healthCheckPath: /health
+
+  - type: web
+    name: rate-limiter-frontend
+    runtime: static
+    buildCommand: cd frontend && npm ci && npm run build
+    staticPublishPath: ./frontend/dist
+    plan: free
+    routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://rate-limiter-backend.onrender.com/api/$1
+      - type: rewrite
+        source: /stream/*
+        destination: https://rate-limiter-backend.onrender.com/stream/$1
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+databases:
+  - name: rate-limiter-redis
+    type: redis
+    plan: free
+    ipAllowList: []
