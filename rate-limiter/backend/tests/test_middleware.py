@@ -102,7 +102,7 @@ def app_client():
         yield
 
     app.router.lifespan_context = patched_lifespan
-    with TestClient(app, raise_server_exceptions=False) as client:
+    with TestClient(app, raise_server_exceptions=True) as client:
         yield client, app
     app.router.lifespan_context = original_lifespan
 
@@ -151,7 +151,7 @@ def blocking_app_client():
 
     original = app.router.lifespan_context
     app.router.lifespan_context = patched_lifespan
-    with TestClient(app, raise_server_exceptions=False) as client:
+    with TestClient(app, raise_server_exceptions=True) as client:
         yield client
     app.router.lifespan_context = original
 
