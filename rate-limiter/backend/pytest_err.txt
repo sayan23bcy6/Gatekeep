@@ -1,1 +1,0 @@
-Unable to create process using 'C:\Users\Sayan Sinha\AppData\Local\Programs\Python\Python310\python.exe -m pytest tests/ -q '
