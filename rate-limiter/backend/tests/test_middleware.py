@@ -83,13 +83,9 @@ def app_client():
             db.close()
 
         mock_redis = AsyncMock()
-        # Stats calls
-        pipe = AsyncMock()
-        pipe.hincrby = AsyncMock()
-        pipe.hset = AsyncMock()
-        pipe.expire = AsyncMock()
+        pipe = MagicMock()
         pipe.execute = AsyncMock(return_value=[1, 1, 1, 1, 1])
-        mock_redis.pipeline.return_value = pipe
+        mock_redis.pipeline = MagicMock(return_value=pipe)
 
         tb = AsyncMock(spec=TokenBucketRedisLimiter)
         sw = AsyncMock(spec=SlidingWindowRedisLimiter)
@@ -132,12 +128,9 @@ def blocking_app_client():
             db.close()
 
         mock_redis = AsyncMock()
-        pipe = AsyncMock()
-        pipe.hincrby = AsyncMock()
-        pipe.hset = AsyncMock()
-        pipe.expire = AsyncMock()
+        pipe = MagicMock()
         pipe.execute = AsyncMock(return_value=[1, 1, 1, 1, 1])
-        mock_redis.pipeline.return_value = pipe
+        mock_redis.pipeline = MagicMock(return_value=pipe)
 
         tb = AsyncMock(spec=TokenBucketRedisLimiter)
         sw = AsyncMock(spec=SlidingWindowRedisLimiter)
