@@ -190,8 +190,8 @@ tests/test_middleware.py       ......... 9 passed
 ### Concurrency Test Result
 
 200 concurrent async requests against a single key with `capacity=50`:
-- **Token Bucket**: Exactly 50 allowed, 150 blocked ✅
-- **Sliding Window**: Exactly 50 allowed, 150 blocked ✅
+- **Token Bucket**: Exactly 50 allowed, 150 blocked 
+- **Sliding Window**: Exactly 50 allowed, 150 blocked 
 
 ### k6 Load Test Summary
 
@@ -247,7 +247,7 @@ Retry-After: 1                 # (on 429 only)
 - Frontend as a static site
 - Redis as a managed database
 
-> ⚠️ **This project is intentionally NOT deployed.** The `render.yaml` is validated YAML and a correct Render blueprint, but no `render` CLI commands have been run and no services were created. To deploy, install the Render CLI and run `render deploy`.
+>  **This project is intentionally NOT deployed.** The `render.yaml` is validated YAML and a correct Render blueprint, but no `render` CLI commands have been run and no services were created. To deploy, install the Render CLI and run `render deploy`.
 
 ## Project Structure
 
